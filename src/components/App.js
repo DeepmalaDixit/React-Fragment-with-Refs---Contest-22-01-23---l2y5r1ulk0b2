@@ -1,33 +1,37 @@
-import React, { useState, useEffect, Fragment, useRef } from "react";
+import React, { useState, useEffect, Fragment } from "react";
 import '../styles/App.css';
 
 import List from "./List";
 
 const App = () => {
 
-  const [value, setValue] = useState('');
+  const [value, setValue] = useState(0);
   const [list, setList] = useState([]);
-  const inputRef = useRef();
+
 
   const onButtonClick = () => {
-    
-    setList([]);
-    for (let i = 1; i < Number(value) + 1; i++) {
-      setList((prev) => [...prev, i]);
-    }
-    setValue('')
+   setList(Array.from({ length: `${value}` }, (v, i) => i))
   };
 
 
- 
+  const onInputChange = (e) => {
+    setValue(e.target.value);
+  };
 
   return (
     <div id="main">
 
-      <input id="input" onChange={(e) => setValue(e.target.value)} value={value} ref={inputRef} />
+      <input id="input" onChange={onInputChange} />
       <button id="button" onClick={onButtonClick}>Click</button>
       <ul id="list">
-        <List listx={list} />
+
+        {
+
+          list.map((item,i) => {
+            return <List listx={i+1}/>
+          })
+        }
+
       </ul>
     </div>
   );
